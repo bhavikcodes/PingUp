@@ -7,3 +7,4 @@
 ## How to run:
 1. cd frontend && npm install && npm run dev
 2. cd backend && npm install && npm start
+have fun
