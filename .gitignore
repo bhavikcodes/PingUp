@@ -1,1 +1,16 @@
+# Node
 node_modules/
+npm-debug.log*
+
+# Env
+.env
+
+# Build
+dist/
+build/
+
+# Vite
+.vite/
+
+# OS
+.DS_Store
