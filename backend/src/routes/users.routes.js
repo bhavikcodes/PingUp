@@ -1,11 +1,9 @@
 import {Router} from 'express';
+import { login, register } from '../controllers/user.controller.js';
 
-const Router = Router();
+const router = Router();
 
-// Example route to get all users
-Router.get('/', async (req, res) => {
-  // Logic to fetch users from database would go here
-  res.json({ message: 'List of users' });
-});
+router.route('/login').post(login); 
+router.route('/register').post(register);
 
-export default Router;
+export default router;
