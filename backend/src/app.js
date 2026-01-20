@@ -4,18 +4,20 @@ import { createServer } from "node:http"; // connects express instance with sock
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import {connectToSocket} from "./controllers/socketManager.js";
+import userRoutes from "./routes/users.routes.js";
 
 const app = express();
 const server = createServer(app);
 const io = connectToSocket(server);
 
-//--------------- initialize  .env variables and request parsers ----------------//
+//--------------- initialize  .env variables and request parsers and routes----------------//
 dotenv.config();
 app.set("port", process.env.port || 3000);
 app.use(cors()); // allows cross origin requests
 app.use(express.json({limit: "40kb"})); // to parse json data in request body
 app.use(express.urlencoded({ limit: "40kb", extended: true })); // to parse urlencoded data in request body
 
+app.use("/api/v1/users", userRoutes); // user routes
 
 
 
