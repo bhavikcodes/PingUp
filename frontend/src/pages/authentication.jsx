@@ -20,8 +20,8 @@ const darkTheme = createTheme({
       main: "#D97500",
     },
     background: {
-      default: "#0f0f0f",
-      paper: "#1a1a1a",
+      default: "#141414",
+      paper: "#242020",
     },
   },
   typography: {
@@ -43,17 +43,29 @@ export default function Authentication() {
   let handleAuth = async () => {
     try {
       if (formState === 0) {
-        await handleLogin(username, password);
-      }
-      if (formState === 1) {
-        let result = await handleRegister(name, username, password);
+        let result = await handleLogin(username, password);
         console.log(result);
         setUsername("");
         setPassword("");
-        setMessage(result);
-        setOpen(true);
-        setError("");
-        setFormState(0);
+      }
+      if (formState === 1) {
+        let result = await handleRegister(name, username, password) ;
+        console.log(result);
+        setName("");
+        setUsername("");
+        setPassword("");
+        if(result != "All fields are required."){
+          setOpen(true);
+          setMessage(result);
+        }
+        if(result === "All fields are required."){
+           setError("All fields are required.");
+        }else{
+            setError("");
+        }
+        if(result != "All fields are required."){
+          setFormState(0);
+        }
       }
     } catch (err) {
       let message = err.response?.data?.message;

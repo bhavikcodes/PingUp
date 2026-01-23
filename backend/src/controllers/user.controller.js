@@ -29,7 +29,6 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  console.log("Register controller reached");
   const { name, username, password } = req.body;
   try {
     const existingUser = await User.findOne({ username });

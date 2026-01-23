@@ -17,11 +17,11 @@ export const AuthProvider = ({ children }) => {
   const router = useNavigate();
    
   const handleRegister = async (name, username, password) => {
-    console.log("reach")
+    if(!name || !username || !password) {
+      return "All fields are required.";
+    }
     try {
-      console.log("Sending register request to:", client.defaults.baseURL + '/register');
-      let request = await client.post('/register', { name:name, username:username, password:password });  // ye fail kar raha hai
-      console.log("Response:", request);
+      let request = await client.post('/register', { name:name, username:username, password:password });
       if(request.status === httpStatus.CREATED) {
         return request.data.message;
       }
@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
       let request = await client.post('/login', { username:username, password:password });
       if(request.status === httpStatus.OK) {
         localStorage.setItem('token', request.data.token);
+        return "Login successful.";
       }
     }
     catch (err) {
