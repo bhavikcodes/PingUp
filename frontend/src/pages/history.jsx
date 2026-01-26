@@ -13,16 +13,24 @@ import { IconButton } from '@mui/material';
 export default function History() {
     const { getHistoryOfUser } = useContext(AuthContext);
     const [meetings, setMeetings] = useState([])
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const routeTo = useNavigate();
 
     useEffect(() => {
         const fetchHistory = async () => {
             try {
+                setLoading(true);
                 const history = await getHistoryOfUser();
-                setMeetings(history);
-            } catch {
-                // IMPLEMENT SNACKBAR
+                setMeetings(Array.isArray(history) ? history : []);
+                setError(null);
+            } catch (err) {
+                console.error("Failed to fetch history:", err);
+                setError("Failed to load meeting history");
+                setMeetings([]);
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -42,43 +50,37 @@ export default function History() {
 
     return (
         <div>
-
             <IconButton onClick={() => {
                 routeTo("/home")
             }}>
                 <HomeIcon />
-            </IconButton >
-            {
-                (meetings.length !== 0) ? meetings.map((e, i) => {
-                    return (
+            </IconButton>
+            
+            {loading && <Typography sx={{ p: 2 }}>Loading meeting history...</Typography>}
+            
+            {error && <Typography color="error" sx={{ p: 2 }}>{error}</Typography>}
+            
+            {!loading && meetings.length === 0 && !error && (
+                <Typography sx={{ p: 2 }} color="text.secondary">
+                    No meeting history found.
+                </Typography>
+            )}
+            
+            {!loading && meetings.length > 0 && meetings.map((e, i) => {
+                return (
+                    <Card key={i} variant="outlined" sx={{ mb: 2, ml: 2, mr: 2 }}>
+                        <CardContent>
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                Code: {e.meetingCode}
+                            </Typography>
 
-                        <>
-
-
-                            <Card key={i} variant="outlined">
-
-
-                                <CardContent>
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Code: {e.meetingCode}
-                                    </Typography>
-
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        Date: {formatDate(e.date)}
-                                    </Typography>
-
-                                </CardContent>
-
-
-                            </Card>
-
-
-                        </>
-                    )
-                }) : <></>
-
-            }
-
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                Date: {formatDate(e.date)}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                )
+            })}
         </div>
     )
 }

@@ -51,31 +51,62 @@ const register = async (req, res) => {
 const getUserHistory = async (req, res) => {
     const { token } = req.query;
 
+    if (!token) {
+        return res
+            .status(httpStatus.BAD_REQUEST)
+            .json({ message: "Token is required" });
+    }
+
     try {
         const user = await User.findOne({ token: token });
-        const meetings = await Meeting.find({ user_id: user.username })
-        res.json(meetings)
+        if (!user) {
+            return res
+                .status(httpStatus.UNAUTHORIZED)
+                .json({ message: "Invalid token or user not found" });
+        }
+
+        const meetings = await Meeting.find({ user_id: user.username }).sort({ date: -1 });
+        return res.status(httpStatus.OK).json(meetings);
     } catch (e) {
-        res.json({ message: `Something went wrong ${e}` })
+        console.error("Error fetching user history:", e);
+        return res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: `Something went wrong: ${e.message}` });
     }
 }
 
 const addToHistory = async (req, res) => {
     const { token, meeting_code } = req.body;
 
+    if (!token || !meeting_code) {
+        return res
+            .status(httpStatus.BAD_REQUEST)
+            .json({ message: "Token and meeting code are required" });
+    }
+
     try {
         const user = await User.findOne({ token: token });
+        if (!user) {
+            return res
+                .status(httpStatus.UNAUTHORIZED)
+                .json({ message: "Invalid token or user not found" });
+        }
 
         const newMeeting = new Meeting({
             user_id: user.username,
             meetingCode: meeting_code
-        })
+        });
 
         await newMeeting.save();
 
-        res.status(httpStatus.CREATED).json({ message: "Added code to history" })
+        return res
+            .status(httpStatus.CREATED)
+            .json({ message: "Added code to history", meetingCode: meeting_code });
     } catch (e) {
-        res.json({ message: `Something went wrong ${e}` })
+        console.error("Error adding to history:", e);
+        return res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ message: `Something went wrong: ${e.message}` });
     }
 }
 

@@ -52,21 +52,27 @@ export const AuthProvider = ({ children }) => {
                     token: localStorage.getItem("token")
                 }
             });
-            return request.data
-        } catch
-         (err) {
+            // Check if data is an array, otherwise return empty array
+            return Array.isArray(request.data) ? request.data : [];
+        } catch (err) {
+            console.error("Error fetching history:", err);
             throw err;
         }
     }
 
     const addToUserHistory = async (meetingCode) => {
+        if (!meetingCode || meetingCode.trim() === "") {
+            console.error("Meeting code is required");
+            throw new Error("Meeting code is required");
+        }
         try {
             let request = await client.post("/add_to_activity", {
                 token: localStorage.getItem("token"),
                 meeting_code: meetingCode
             });
-            return request
+            return request.data;
         } catch (e) {
+            console.error("Error adding to history:", e);
             throw e;
         }
     }
