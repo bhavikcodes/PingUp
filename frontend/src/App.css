@@ -17,15 +17,58 @@
 }
 
 .landingPageContainer nav h2 {
-  font-size: 1.8rem;
-  font-weight: 500;
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FF9839 0%, #FFB366 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+  font-style: italic;
+  filter: drop-shadow(0 2px 4px rgba(255, 152, 57, 0.2));
+  margin: 0;
 }
 
 .landingPageContainer nav .navlist {
   display: flex;
-  gap: 1.6rem;
+  gap: 2.5rem;
   cursor: pointer;
+}
 
+.landingPageContainer nav .navlist p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5rem 0;
+  margin: 0;
+}
+
+.landingPageContainer nav .navlist p:hover {
+  color: #FF9839;
+  transform: translateY(-2px);
+}
+
+.landingPageContainer nav .navlist div[role='button'] {
+  font-weight: 800;
+  padding: 0.1rem 2rem;
+  background: linear-gradient(135deg, #d86900 0%, #e17000 100%);
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 152, 57, 0.3);
+}
+
+.landingPageContainer nav .navlist div[role='button']:hover {
+  /* background: linear-gradient(135deg, #ff7c02 0%, #f47a00 100%); */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(196, 95, 0, 0.278);
+}
+
+.landingPageContainer nav .navlist div[role='button'] p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
 }
 
 .landingMainContainer {
@@ -41,20 +84,36 @@
 }
 
 .landingMainContainer>div:nth-child(1) div[role='button'] {
-  background: #D97500;
+background: linear-gradient(135deg, #d86900 0%, #e17000 100%);
   width: fit-content;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  margin-top: 1.5rem;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  margin-top: 2rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 8px 25px rgba(255, 152, 57, 0.4);
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
 }
-.landingMainContainer>div:nth-child(1) div[role='button'] :hover {
- opacity: 0.8;
+
+.landingMainContainer>div:nth-child(1) div[role='button']:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 40px rgba(255, 152, 57, 0.6);
+}
+
+.landingMainContainer>div:nth-child(1) div[role='button']:active {
+  transform: translateY(-2px) scale(0.98);
 }
 
 .landingMainContainer>div:nth-child(1) div[role='button'] a {
   text-decoration: none;
   color: white;
-  font-size: 1.7rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: block;
 }
 
 .landingMainContainer>div:nth-child(2) img {
@@ -96,4 +155,122 @@
   width: 30vw;
   height: auto;
   border-radius: 20px;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .landingPageContainer {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .landingPageContainer nav {
+    padding-inline: 1rem;
+    padding-block: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .landingPageContainer nav h2 {
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+  }
+
+  .landingPageContainer nav .navlist {
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .landingPageContainer nav .navlist p {
+    font-size: 1.3rem;
+    align-items: center;
+    justify-content: center;
+    text-decoration: underline;
+  }
+
+  .landingPageContainer nav .navlist div[role='button'] {
+    padding: 0.6rem 1.2rem;
+  }
+
+  .landingPageContainer nav .navlist div[role='button'] p {
+    font-size: 0.95rem;
+  }
+
+  .landingMainContainer {
+    flex-direction: column;
+    margin-top: 2rem;
+    padding-inline: 1.5rem;
+    padding-block: 2rem;
+    height: auto;
+    gap: 5rem;
+    justify-content: center;
+  }
+
+  .landingMainContainer > div:nth-child(1) {
+    font-size: 1.5rem;
+    text-align: center;
+    order: 2;
+  }
+
+  .landingMainContainer > div:nth-child(1) h1 {
+    font-size: 1.8rem;
+    margin: 1rem 0 0.5rem 0;
+  }
+
+  .landingMainContainer > div:nth-child(1) p {
+    font-size: 1rem;
+    margin: 0.5rem 0 1rem 0;
+  }
+
+  .landingMainContainer > div:nth-child(1) div[role='button'] {
+    padding: 0.8rem 1.8rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+
+  .landingMainContainer > div:nth-child(1) div[role='button'] a {
+    font-size: 1rem;
+  }
+
+  .landingMainContainer > div:nth-child(1) div[role='button']:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .landingMainContainer > div:nth-child(2) {
+    order: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .landingMainContainer > div:nth-child(2) img {
+    height: auto;
+    max-height: 40vh;
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .meetContainer {
+    flex-direction: column;
+    gap: 2rem;
+    padding-block: 2rem;
+    height: auto;
+  }
+
+  .leftPanel {
+    width: 100%;
+  }
+
+  .rightPanel {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .rightPanel > img {
+    width: 90%;
+    max-width: 400px;
+  }
 }
