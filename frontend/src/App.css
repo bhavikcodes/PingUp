@@ -8,6 +8,15 @@ html, body, #root {
   font-family: 'Montserrat', sans-serif;
 }
 
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .landingPageContainer {
   width: 100vw;
   height: 100vh;
@@ -247,6 +256,7 @@ background: linear-gradient(135deg, #d86900 0%, #e17000 100%);
 
 .meetInput {
   flex: 1;
+  background-color: rgb(82, 82, 82);
 }
 
 .meetInput .MuiOutlinedInput-root {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
-import { Badge, IconButton, TextField } from "@mui/material";
+import { Badge, IconButton, TextField, Switch, FormControlLabel } from "@mui/material";
 import { Button } from "@mui/material";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
@@ -55,13 +55,10 @@ export default function VideoMeetComponent() {
 
   let [videos, setVideos] = useState([]);
 
-  // TODO
-  // if(isChrome() === false) {
-
-  // }
+  // Get logged-in user's name or set as empty for guest
+  const loggedInUserName = localStorage.getItem("userName") || "";
 
   useEffect(() => {
-    console.log("HELLO");
     getPermissions();
   });
 
@@ -131,8 +128,8 @@ export default function VideoMeetComponent() {
     }
   }, [video, audio]);
   let getMedia = () => {
-    setVideo(videoAvailable);
-    setAudio(audioAvailable);
+    // Keep the current toggle states instead of overwriting them
+    // This respects the user's camera/mic selections before connecting
     connectToSocketServer();
   };
 
@@ -220,7 +217,6 @@ export default function VideoMeetComponent() {
   };
 
   let getDislayMediaSuccess = (stream) => {
-    console.log("HERE");
     try {
       window.localStream.getTracks().forEach((track) => track.stop());
     } catch (e) {
@@ -497,23 +493,211 @@ export default function VideoMeetComponent() {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: '#0f0f0f', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       {askForUsername === true ? (
-        <div>
-          <h2>Enter into Lobby </h2>
-          <TextField
-            id="outlined-basic"
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            variant="outlined"
-          />
-          <Button variant="contained" onClick={connect}>
-            Connect
-          </Button>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+          padding: '1rem',
+          backgroundColor: '#0f0f0f'
+        }}>
+          <div style={{
+            backgroundColor: '#1a1a1a',
+            padding: '2rem 2.5rem',
+            borderRadius: '16px',
+            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
+            border: '1px solid rgba(255, 152, 57, 0.2)',
+            textAlign: 'center',
+            maxWidth: '500px',
+            width: '100%'
+          }}>
+            <h2 style={{
+              color: 'white',
+              fontSize: '2rem',
+              fontWeight: '700',
+              marginBottom: '2rem',
+              fontFamily: "'Montserrat', sans-serif"
+            }}>
+              Enter into Lobby
+            </h2>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem'
+            }}>
+              <TextField
+                id="outlined-basic"
+                label="Username"
+                placeholder={loggedInUserName ? loggedInUserName : "Enter username"}
+                value={loggedInUserName || username}
+                onChange={(e) => setUsername(e.target.value)}
+                variant="outlined"
+                fullWidth
+                InputProps={{
+                  style: {
+                    color: 'white',
+                    fontFamily: "'Montserrat', sans-serif"
+                  }
+                }}
+                InputLabelProps={{
+                  style: {
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    fontFamily: "'Montserrat', sans-serif"
+                  }
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: 'rgba(255, 152, 57, 0.3)'
+                    },
+                    '&:hover fieldset': {
+                      borderColor: 'rgba(255, 152, 57, 0.6)'
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: '#FF9839'
+                    }
+                  }
+                }}
+              />
+              
+              {/* Camera and Microphone Toggles */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                backgroundColor: 'rgba(255, 152, 57, 0.1)',
+                padding: '1rem',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 152, 57, 0.2)',
+                gap: '1rem'
+              }}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={videoAvailable && video}
+                      onChange={(e) => setVideo(e.target.checked)}
+                      sx={{
+                        '& .MuiSwitch-switchBase': {
+                          color: '#FF9839',
+                          '&.Mui-checked': {
+                            color: '#FF9839',
+                            '& + .MuiSwitch-track': {
+                              backgroundColor: 'rgba(255, 152, 57, 0.3)'
+                            }
+                          }
+                        },
+                        '& .MuiSwitch-track': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.2)'
+                        }
+                      }}
+                    />
+                  }
+                  label={
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'white', fontFamily: "'Montserrat', sans-serif", fontSize: '0.95rem', fontWeight: '500' }}>
+                      {video ? <VideocamIcon fontSize="small" /> : <VideocamOffIcon fontSize="small" />}
+                      Camera
+                    </div>
+                  }
+                />
+                
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={audioAvailable && audio}
+                      onChange={(e) => setAudio(e.target.checked)}
+                      sx={{
+                        '& .MuiSwitch-switchBase': {
+                          color: '#FF9839',
+                          '&.Mui-checked': {
+                            color: '#FF9839',
+                            '& + .MuiSwitch-track': {
+                              backgroundColor: 'rgba(255, 152, 57, 0.3)'
+                            }
+                          }
+                        },
+                        '& .MuiSwitch-track': {
+                          backgroundColor: 'rgba(255, 255, 255, 0.2)'
+                        }
+                      }}
+                    />
+                  }
+                  label={
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'white', fontFamily: "'Montserrat', sans-serif", fontSize: '0.95rem', fontWeight: '500' }}>
+                      {audio ? <MicIcon fontSize="small" /> : <MicOffIcon fontSize="small" />}
+                      Mic
+                    </div>
+                  }
+                />
+              </div>
 
-          <div>
-            <video ref={localVideoref} autoPlay muted></video>
+              <Button 
+                variant="contained" 
+                onClick={connect}
+                sx={{
+                  background: 'linear-gradient(135deg, #d86900 0%, #e17000 100%)',
+                  padding: '0.8rem',
+                  fontWeight: '700',
+                  fontSize: '1rem',
+                  textTransform: 'none',
+                  fontFamily: "'Montserrat', sans-serif",
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 8px 20px rgba(255, 152, 57, 0.4)'
+                  },
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Connect
+              </Button>
+            </div>
+
+            <div style={{ marginTop: '2rem', position: 'relative' }}>
+              <video 
+                ref={localVideoref} 
+                autoPlay 
+                muted 
+                style={{
+                  width: '100%',
+                  borderRadius: '12px',
+                  backgroundColor: '#000',
+                  marginTop: '1.5rem',
+                  filter: video ? 'blur(0px)' : 'blur(20px)',
+                  transition: 'filter 0.3s ease'
+                }}
+              ></video>
+              
+              {/* Blurred Overlay when camera is OFF */}
+              {!video && (
+                <div style={{
+                  position: 'absolute',
+                  top: '1.5rem',
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backdropFilter: 'blur(10px)',
+                  zIndex: 1,
+                  animation: 'pulse 2s infinite'
+                }}>
+                  <VideocamOffIcon sx={{ fontSize: '4rem', color: 'rgba(255, 255, 255, 0.5)', mb: 1 }} />
+                  <span style={{
+                    color: 'rgba(255, 255, 255, 0.7)',
+                    fontSize: '1rem',
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontWeight: '500'
+                  }}>
+                    Camera is Off
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ) : (
@@ -526,7 +710,6 @@ export default function VideoMeetComponent() {
                 <div className={styles.chattingDisplay}>
                   {messages.length !== 0 ? (
                     messages.map((item, index) => {
-                      console.log(messages);
                       return (
                         <div style={{ marginBottom: "20px" }} key={index}>
                           <p style={{ fontWeight: "bold" }}>{item.sender}</p>
