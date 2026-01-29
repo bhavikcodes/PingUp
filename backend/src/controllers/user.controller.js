@@ -22,7 +22,11 @@ const login = async (req, res) => {
       let token = crypto.randomBytes(20).toString("hex");
       user.token = token;
       await user.save();
-      return res.status(httpStatus.OK).json({ token });
+      return res.status(httpStatus.OK).json({ 
+        token, 
+        name: user.name,
+        username: user.username 
+      });
     } else {
       return res
         .status(httpStatus.UNAUTHORIZED)

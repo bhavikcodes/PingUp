@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AuthContext } from "../contexts/authContext.jsx";
-import { Snackbar } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 
 // 🌙 Dark Theme
 const darkTheme = createTheme({
@@ -81,16 +81,17 @@ export default function Authentication() {
 
       if (formState === 0) {
         let result = await handleLogin(username, password);
-        console.log(result);
         setUsername("");
         setPassword("");
       }
       if (formState === 1) {
         let result = await handleRegister(name, username, password) ;
-        console.log(result);
         setName("");
         setUsername("");
         setPassword("");
+        if(result === "Registration successful. Please log in."){
+          return;
+        }
         if(result != "All fields are required."){
           setOpen(true);
           setMessage(result);

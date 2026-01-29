@@ -1,3 +1,13 @@
+html, body, #root {
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  min-height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .landingPageContainer {
   width: 100vw;
   height: 100vh;
@@ -31,6 +41,7 @@
 
 .landingPageContainer nav .navlist {
   display: flex;
+  text-decoration: none;
   gap: 2.5rem;
   cursor: pointer;
 }
@@ -129,36 +140,234 @@ background: linear-gradient(135deg, #d86900 0%, #e17000 100%);
   text-align: center;
 
 }
+
+.homeNavBar {
+  background: linear-gradient(135deg, #1a1a1a 0%, #242020 100%);
+  padding-inline: 1.5rem;
+  padding-block: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 152, 57, 0.2);
+  color: white;
+}
+
+.homeNavBar .navHeader h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FF9839 0%, #FFB366 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+  font-style: italic;
+  filter: drop-shadow(0 2px 4px rgba(255, 152, 57, 0.2));
+  margin: 0;
+}
+
+.homeNavBar .navRight {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.homeNavBar .welcomeText {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: white;
+}
+
+#un {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #FF9839;
+}
+
+.homeNavBar .menuButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.homeNavBar .menuButton:hover {
+  background-color: rgba(255, 152, 57, 0.1);
+  transform: scale(1.1);
+}
+
 .meetContainer {
   display: flex;
-  padding-inline: 20px;
-  height: 80vh;
-  gap: 10vw;
+  padding-inline: 3rem;
+  padding-block: 2rem;
+  gap: 4rem;
+  justify-content: space-between;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  color: white;
+}
+
+.leftPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
+.meetContent {
+  max-width: 500px;
+}
 
+.meetContent .mobileWelcomeText {
+  display: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 1rem;
+  text-align: center;
+}
 
-.leftPanel {
-  height: 100%;
+.meetContent h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 2rem 0;
+  line-height: 1.3;
+}
+
+.meetInputGroup {
   display: flex;
+  gap: 1rem;
   align-items: center;
+}
 
+.meetInput {
+  flex: 1;
+}
+
+.meetInput .MuiOutlinedInput-root {
+  color: white;
+}
+
+.meetInput .MuiOutlinedInput-root fieldset {
+  border-color: rgba(255, 152, 57, 0.3);
+}
+
+.meetInput .MuiOutlinedInput-root:hover fieldset {
+  border-color: rgba(255, 152, 57, 0.6);
+}
+
+.meetInput .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #FF9839;
+}
+
+.meetInput .MuiInputBase-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+}
+
+.joinButton {
+  background: linear-gradient(135deg, #d86900 0%, #e17000 100%) !important;
+  padding: 0.85rem 2.5rem !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 6px 20px rgba(255, 152, 57, 0.3) !important;
+}
+
+.joinButton:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 30px rgba(255, 152, 57, 0.5) !important;
 }
 
 .rightPanel {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .rightPanel > img {
-  width: 30vw;
+  width: 100%;
+  max-width: 400px;
   height: auto;
   border-radius: 20px;
 }
 
 /* Mobile Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  /* Home page responsive styles */
+  .homeNavBar {
+    padding-inline: 1rem;
+    padding-block: 1rem;
+  }
+
+  .homeNavBar .navHeader h2 {
+    font-size: 1.6rem;
+  }
+
+  .homeNavBar .navRight {
+    gap: 1rem;
+  }
+
+  .homeNavBar .welcomeText {
+    display: none;
+  }
+  
+
+  .meetContent .mobileWelcomeText {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .meetContainer {
+    flex-direction: column;
+    padding-inline: 1.5rem;
+    padding-block: 1.5rem;
+    gap: 2rem;
+    min-height: auto;
+  }
+
+  .leftPanel {
+    flex: none;
+    width: 100%;
+    order: 2;
+  }
+
+  .meetContent h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .meetInputGroup {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .meetInput {
+    width: 100%;
+  }
+
+  .joinButton {
+    width: 100% !important;
+  }
+
+  .rightPanel {
+    flex: none;
+    width: 100%;
+    order: 1;
+  }
+
+  .rightPanel > img {
+    max-width: 280px;
+  }
+
+  /* Landing page responsive styles */
   .landingPageContainer {
     width: 100%;
     height: auto;
@@ -178,14 +387,17 @@ background: linear-gradient(135deg, #d86900 0%, #e17000 100%);
   }
 
   .landingPageContainer nav .navlist {
-    gap: 1rem;
+    gap: 1.5rem;
     width: 100%;
+    text-decoration: none;
     justify-content: center;
     margin-top: 2rem;
+    align-items: center;
   }
 
   .landingPageContainer nav .navlist p {
     font-size: 1.3rem;
+    text-decoration: none;
     align-items: center;
     justify-content: center;
     text-decoration: underline;
@@ -193,9 +405,11 @@ background: linear-gradient(135deg, #d86900 0%, #e17000 100%);
 
   .landingPageContainer nav .navlist div[role='button'] {
     padding: 0.6rem 1.2rem;
+    text-decoration: none;
   }
 
   .landingPageContainer nav .navlist div[role='button'] p {
+    text-decoration: none;
     font-size: 0.95rem;
   }
 
