@@ -23,6 +23,10 @@ const login = async (req, res) => {
       user.token = token;
       await user.save();
       return res.status(httpStatus.OK).json({ token });
+    } else {
+      return res
+        .status(httpStatus.UNAUTHORIZED)
+        .json({ message: "Wrong password" });
     }
   } catch (error) {
     return res.json({ message: `Server error: ${error.message}` });
