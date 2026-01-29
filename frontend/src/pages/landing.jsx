@@ -3,6 +3,7 @@ import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
 export default function LandingPage() {
   const router = useNavigate();
+  let randomCode = Math.random().toString(36).substring(2, 14);
 
   return (
     <div className="landingPageContainer">
@@ -13,7 +14,7 @@ export default function LandingPage() {
         <div className="navlist">
           <p
             onClick={() => {
-              router("/aljk23");
+              router(`/${randomCode}`);
             }}
           >
             Join as Guest
