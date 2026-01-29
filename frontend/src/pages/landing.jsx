@@ -18,20 +18,13 @@ export default function LandingPage() {
           >
             Join as Guest
           </p>
-          <p
-            onClick={() => {
-              router("/auth");
-            }}
-          >
-            Register
-          </p>
           <div
             onClick={() => {
               router("/auth");
             }}
             role="button"
           >
-            <p>Login</p>
+            <p>Register | Login</p>
           </div>
         </div>
       </nav>

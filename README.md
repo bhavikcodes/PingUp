@@ -8,3 +8,4 @@
 1. cd frontend && npm install && npm run dev
 2. cd backend && npm install && npm start
 fixed email issue
+this is feature branch change and will only reflect in feature branch not in main branch.

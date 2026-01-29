@@ -24,7 +24,8 @@ export const AuthProvider = ({ children }) => {
     try {
       let request = await client.post('/register', { name:name, username:username, password:password });
       if(request.status === httpStatus.CREATED) {
-        return request.data.message;
+        handleLogin(username, password);
+        return "Registration successful. Please log in.";
       }
     } catch (err) {
       console.error("Register error details:", err.response || err.message || err);
@@ -37,6 +38,7 @@ export const AuthProvider = ({ children }) => {
       let request = await client.post('/login', { username:username, password:password });
       if(request.status === httpStatus.OK) {
         localStorage.setItem('token', request.data.token);
+        localStorage.setItem('userName', request.data.name);
         router('/home');
         return "Login successful.";
       }

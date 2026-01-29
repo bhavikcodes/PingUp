@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AuthContext } from "../contexts/authContext.jsx";
-import { Snackbar } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 
 // 🌙 Dark Theme
 const darkTheme = createTheme({
@@ -40,20 +40,58 @@ export default function Authentication() {
 
   const { handleRegister, handleLogin } = React.useContext(AuthContext);
 
+  // Validation function
+  const validateInputs = () => {
+    // Validate login form
+    if (formState === 0) {
+      if (username.length <= 2) {
+        setError("Username must be more than 2 letters");
+        return false;
+      }
+      if (password.length <= 6) {
+        setError("Password must be more than 6 characters");
+        return false;
+      }
+    }
+    // Validate register form
+    else if (formState === 1) {
+      if (name.length <= 2) {
+        setError("Name must be more than 2 letters");
+        return false;
+      }
+      if (username.length <= 2) {
+        setError("Username must be more than 2 letters");
+        return false;
+      }
+      if (password.length <= 6) {
+        setError("Password must be more than 6 characters");
+        return false;
+      }
+    }
+    setError("");
+    return true;
+  };
+
   let handleAuth = async () => {
     try {
+      // Validate inputs before submitting
+      if (!validateInputs()) {
+        return;
+      }
+
       if (formState === 0) {
         let result = await handleLogin(username, password);
-        console.log(result);
         setUsername("");
         setPassword("");
       }
       if (formState === 1) {
         let result = await handleRegister(name, username, password) ;
-        console.log(result);
         setName("");
         setUsername("");
         setPassword("");
+        if(result === "Registration successful. Please log in."){
+          return;
+        }
         if(result != "All fields are required."){
           setOpen(true);
           setMessage(result);
