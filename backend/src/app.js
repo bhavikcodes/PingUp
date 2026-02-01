@@ -5,6 +5,11 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { connectToSocket } from "./controllers/socketManager.js";
 import userRoutes from "./routes/users.routes.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = createServer(app);
@@ -22,7 +27,16 @@ app.use(cors({
 app.use(express.json()); // to parse json data in request body
 app.use(express.urlencoded({ extended: true })); // to parse urlencoded data in request body
 
+// Serve static files from the frontend build directory
+const frontendDistPath = path.join(__dirname, "../../frontend/dist");
+app.use(express.static(frontendDistPath));
+
 app.use("/api/v1/users", userRoutes); // user routes
+
+// Handle SPA routing, return all requests to React app
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(frontendDistPath, "index.html"));
+});
 
 
 //------------------------ Start Server & Connect to DB ----------------------//
