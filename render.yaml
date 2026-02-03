@@ -1,0 +1,31 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: pingup-backend
+    runtime: node
+    region: oregon
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGODB_URI
+        sync: false  # Set this in Render Dashboard
+
+  # Frontend Static Site
+  - type: web
+    name: pingup-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_SERVER_URL
+        sync: false  # Set this in Render Dashboard to your backend URL
